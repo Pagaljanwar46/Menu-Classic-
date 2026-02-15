@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Amrit Palace | Spices of India</title>
+    <title>ZZZ Palace | Spices of India</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;1,6..96,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
@@ -103,6 +103,7 @@
             justify-content: center;
             text-align: center;
             position: relative;
+            padding: 0 20px; /* Add padding for mobile */
         }
 
         .top-tag {
@@ -128,7 +129,7 @@
         .quote-banner {
             width: 100%;
             text-align: center;
-            padding: 40px 0;
+            padding: 40px 20px; /* Adjust padding for mobile */
             border-bottom: 1px solid rgba(0,0,0,0.1);
             margin-bottom: 40px;
         }
@@ -138,6 +139,12 @@
             font-style: italic;
             font-size: 2rem;
             text-transform: none;
+        }
+
+        @media (max-width: 768px) {
+            .quote-text {
+                font-size: 1.5rem; /* Smaller font on mobile */
+            }
         }
 
         /* --- HERO IMAGE PARALLAX --- */
@@ -176,6 +183,7 @@
             padding: 40px;
             text-align: center;
             position: relative;
+            width: 90%; /* Responsive width */
         }
 
         .course-price {
@@ -218,6 +226,32 @@
             display: block;
         }
 
+        @media (max-width: 600px) {
+            .steps-grid {
+                grid-template-columns: 1fr; /* Stack columns on mobile */
+                border-bottom: none; /* Remove bottom border */
+            }
+            .step-col {
+                border-right: none;
+                border-bottom: 1px solid #1a1a1a; /* Add bottom border to items */
+            }
+            .step-col:last-child {
+                border-bottom: 1px solid #1a1a1a; /* Keep bottom border on last item for consistency */
+            }
+             /* Re-add bottom border to the grid container if needed, or rely on item borders */
+             .steps-grid {
+                border-bottom: none;
+             }
+             /* To make the last item have a bottom border that matches the grid's original bottom border look */
+             .step-col:last-child {
+                 border-bottom: none;
+             }
+             .steps-grid {
+                 border-bottom: 1px solid #1a1a1a;
+             }
+        }
+
+
         /* --- LUNCH SPECIALS --- */
         .lunch-box {
             background-color: #cfc4b0; /* Slightly darker shade */
@@ -226,6 +260,7 @@
             max-width: 700px;
             margin: 0 auto 100px;
             border: 1px solid rgba(0,0,0,0.05);
+            width: 90%; /* Responsive width */
         }
 
         .timer-box {
@@ -251,6 +286,12 @@
             margin-bottom: 10px;
             line-height: 1;
         }
+        
+        @media (max-width: 600px) {
+            .cat-header {
+                font-size: 2.5rem; /* Smaller header on mobile */
+            }
+        }
 
         .cat-sub {
             font-style: italic;
@@ -260,9 +301,10 @@
         }
 
         .menu-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: 10px;
+            align-items: end;
             margin-bottom: 5px;
             position: relative;
         }
@@ -270,10 +312,10 @@
         /* The dotted line effect */
         .menu-row::after { 
             content: '';
-            flex-grow: 1;
-            border-bottom: 1px dotted #aaa;
-            margin: 0 10px 5px 10px;
-            opacity: 0.5;
+            border-bottom: 1px dotted #000;
+            opacity: 0.3;
+            transform: translateY(-5px);
+            width: 100%;
         }
 
         .item-title {
@@ -288,21 +330,22 @@
             white-space: nowrap;
         }
         
-        /* Make price stick to right, title to left, dots in middle */
-        .menu-row {
-            display: grid;
-            grid-template-columns: auto 1fr auto;
-            gap: 10px;
-            align-items: end;
+        @media (max-width: 500px) {
+            .menu-row {
+                grid-template-columns: 1fr auto; /* Stack title/dots and price differently or remove dots */
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .menu-row::after {
+                display: none; /* Hide dots on very small screens if they break layout */
+            }
+            .item-title {
+                white-space: normal; /* Allow wrapping */
+                font-size: 1.1rem;
+            }
         }
-        
-        .menu-row::after {
-            content: "";
-            border-bottom: 1px dotted #000;
-            opacity: 0.3;
-            transform: translateY(-5px);
-            width: 100%;
-        }
+
 
         .item-desc {
             font-size: 0.95rem;
@@ -345,6 +388,13 @@
             max-width: 800px;
             margin: 0 auto;
         }
+        
+        @media (max-width: 600px) {
+            .footer-grid {
+                grid-template-columns: 1fr; /* Single column on mobile */
+                text-align: center;
+            }
+        }
 
         .footer-block h4 {
             font-size: 0.8rem;
@@ -370,100 +420,76 @@
             margin-top: 50px;
             line-height: 1;
         }
-
-        @media(max-width: 768px) {
-            .steps-grid { grid-template-columns: 1fr; }
-            .step-col { border-right: none; border-bottom: 1px solid #1a1a1a; }
-            .footer-grid { grid-template-columns: 1fr; text-align: center; }
+        
+        /* Menu */
+        .menu-icon {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            z-index: 999;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: white;
+            mix-blend-mode: difference; /* Ensures visibility on light or dark backgrounds */
         }
 
+        /* Overlay Container */
+        .nav-overlay {
+            height: 100%;
+            width: 0; /* Hidden by default */
+            position: fixed;
+            z-index: 1000;
+            top: 0;
+            left: 0;
+            background-color: var(--bg-color); /* Use variable */
+            overflow-x: hidden;
+            transition: 0.5s cubic-bezier(0.7, 0, 0.3, 1); /* Smooth Slide Effect */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
 
-                /* Menu */
-/* Import Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&family=Montserrat:wght@200;300;400;600&display=swap');
+        /* Links inside the menu */
+        .nav-overlay a {
+            padding: 10px;
+            font-size: 2.5rem;
+            text-decoration: none;
+            color: var(--text-color); /* Use variable */
+            display: block;
+            transition: 0.3s;
+            font-family: 'Bodoni Moda', serif; /* Match header font */
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            white-space: nowrap; /* Prevents text breaking during animation */
+        }
 
-/* Colors & Basics */
-:root {
-    --tan: #c4b399;
-    --charcoal: #1a1a1a;
-}
+        /* Hover effect */
+        .nav-overlay a:hover {
+            color: white;
+        }
 
-/* Menu Icon (Hamburger) */
-.menu-icon {
-    position: fixed;
-    top: 30px;
-    right: 30px;
-    z-index: 999;
-    cursor: pointer;
-    font-size: 1.5rem;
-    color: white;
-    mix-blend-mode: difference; /* Ensures visibility on light or dark backgrounds */
-}
-
-/* Overlay Container */
-.nav-overlay {
-    height: 100%;
-    width: 0; /* Hidden by default */
-    position: fixed;
-    z-index: 1000;
-    top: 0;
-    left: 0;
-    background-color: var(--tan);
-    overflow-x: hidden;
-    transition: 0.5s cubic-bezier(0.7, 0, 0.3, 1); /* Smooth Slide Effect */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-/* Links inside the menu */
-.nav-overlay a {
-    padding: 10px;
-    font-size: 2.5rem;
-    text-decoration: none;
-    color: var(--charcoal);
-    display: block;
-    transition: 0.3s;
-    font-family: 'Playfair Display', serif;
-    text-transform: uppercase;
-    letter-spacing: 3px;
-    white-space: nowrap; /* Prevents text breaking during animation */
-}
-
-/* Hover effect */
-.nav-overlay a:hover {
-    color: white;
-}
-
-/* Close button specific style */
-.nav-overlay .closebtn {
-    position: absolute;
-    top: 20px;
-    right: 45px;
-    font-size: 60px;
-}
-
-
-
-
+        /* Close button specific style */
+        .nav-overlay .closebtn {
+            position: absolute;
+            top: 20px;
+            right: 45px;
+            font-size: 60px;
+        }
 
     </style>
 </head>
 <body>
 
 
-  <!-- Menu -->
-<div class="menu-icon" onclick="toggleNav()">&#9776;</div>
+  <div class="menu-icon hover-target" onclick="toggleNav()">&#9776;</div>
 
 <div id="myNav" class="nav-overlay">
-    <a href="javascript:void(0)" style="position:absolute; top:20px; right:45px; font-size:60px" onclick="toggleNav()">&times;</a>
-    <a href="index.html">HOME</a> 
-   <!--- <a href="#">CATERING</a> -->
-    <a href="gift_card.html">GIFT CARD</a>
-    <!--<a href="#">STORE</a>-->
-    <a href="about.html">ABOUT</a>
-    <a href="contact.html">CONTACT</a>
+    <a href="javascript:void(0)" style="position:absolute; top:20px; right:45px; font-size:60px" class="closebtn hover-target" onclick="toggleNav()">&times;</a>
+    <a href="index.html" class="hover-target">HOME</a> 
+    <a href="gift_card.html" class="hover-target">GIFT CARD</a>
+    <a href="about.html" class="hover-target">ABOUT</a>
+    <a href="contact.html" class="hover-target">CONTACT</a>
 </div>
 
     <div class="cursor-dot" id="cursor-dot"></div>
@@ -519,7 +545,7 @@
             
             <div style="margin-top: 30px; text-align: left; max-width: 400px; margin-left: auto; margin-right: auto;">
                 <div class="menu-row">
-                    <span class="item-title">Amrit Express Thali</span>
+                    <span class="item-title">ZZZ Express Thali</span>
                     <span></span>
                     <span class="item-price">$14.99</span>
                 </div>
@@ -625,12 +651,12 @@
     <footer>
         <div class="footer-grid">
             <div class="footer-block">
-                <h4>AMRIT PALACE</h4>
+                <h4>ZZZ PALACE</h4>
                 <p>3415 SW College Rd</p>
                 <p>Ocala, FL 34474</p>
                 <br>
                 <p>+1 (352) 873-8500</p>
-                <a href="#">E-mail Us</a>
+                <a href="#" class="hover-target">E-mail Us</a>
             </div>
             <div class="footer-block">
                 <h4>HOURS</h4>
@@ -639,7 +665,7 @@
                 <p>Mon (Closed)</p>
             </div>
         </div>
-        <div class="big-footer-logo">AMRIT PALACE</div>
+        <div class="big-footer-logo">ZZZ PALACE</div>
     </footer>
 
     <script>
@@ -716,7 +742,7 @@
         setInterval(updateTimer, 1000);
         updateTimer();
 
-               <!--menu-->
+                /*menu*/
 
     function toggleNav() {
         const nav = document.getElementById("myNav");
