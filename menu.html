@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amrit Palace | Spices of India</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;1,6..96,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #DCCFB7; /* The exact warm beige from the video */
+            --text-color: #1a1a1a;
+            --accent-color: #5D4037;
+            --border-color: #8c8c8c;
+            --footer-bg: #111111;
+            --footer-text: #E6DED1;
+            --cursor-size: 30px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none; /* Hide default cursor */
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Jost', sans-serif; /* Clean sans for body text */
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* --- SMOOTH SCROLL & ANIMATIONS --- */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        .reveal-text {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-text.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- CUSTOM CURSOR --- */
+        .cursor-dot {
+            width: 12px;
+            height: 12px;
+            background-color: #000;
+            position: fixed;
+            top: 0;
+            left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 9999;
+            pointer-events: none;
+        }
+
+        .cursor-circle {
+            width: 50px;
+            height: 50px;
+            border: 1px solid rgba(0,0,0,0.5);
+            background-color: rgba(0,0,0,0.05);
+            position: fixed;
+            top: 0;
+            left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 9998;
+            pointer-events: none;
+            transition: width 0.3s, height 0.3s, background-color 0.3s;
+        }
+
+        /* Hover state for cursor */
+        body.hovering .cursor-circle {
+            width: 80px;
+            height: 80px;
+            background-color: rgba(0,0,0,0.1);
+            border-color: transparent;
+        }
+
+        /* --- TYPOGRAPHY --- */
+        h1, h2, h3, .serif-font {
+            font-family: 'Bodoni Moda', serif; /* High contrast serif like video */
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+
+        /* --- HEADER --- */
+        header {
+            height: 90vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+        }
+
+        .top-tag {
+            font-size: 0.8rem;
+            letter-spacing: 3px;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .main-title {
+            font-size: 15vw; /* Massive responsive text */
+            line-height: 0.8;
+            margin-bottom: 20px;
+            font-weight: 400;
+        }
+
+        .sub-tag {
+            font-size: 1rem;
+            letter-spacing: 2px;
+            font-weight: 300;
+        }
+
+        .quote-banner {
+            width: 100%;
+            text-align: center;
+            padding: 40px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            margin-bottom: 40px;
+        }
+
+        .quote-text {
+            font-family: 'Bodoni Moda', serif;
+            font-style: italic;
+            font-size: 2rem;
+            text-transform: none;
+        }
+
+        /* --- HERO IMAGE PARALLAX --- */
+        .hero-container {
+            width: 100%;
+            height: 60vh;
+            overflow: hidden;
+            position: relative;
+            margin-bottom: 60px;
+        }
+
+        .hero-img {
+            width: 100%;
+            height: 120%; /* Taller for parallax */
+            background-image: url('https://images.unsplash.com/photo-1626074353765-517a681e40be?q=80&w=2574&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            position: absolute;
+            top: -10%;
+        }
+
+        .intro-p {
+            max-width: 600px;
+            margin: 0 auto 80px;
+            text-align: center;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            padding: 0 20px;
+        }
+
+        /* --- COURSE BOX UI --- */
+        .course-wrapper {
+            max-width: 700px;
+            margin: 0 auto 100px;
+            border: 1px solid #1a1a1a;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+        }
+
+        .course-price {
+            font-family: 'Bodoni Moda', serif;
+            font-size: 2.5rem;
+            margin: 10px 0;
+        }
+
+        .upsell {
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-top: 15px;
+            margin-bottom: 30px;
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            border-top: 1px solid #1a1a1a;
+            border-bottom: 1px solid #1a1a1a;
+        }
+
+        .step-col {
+            padding: 20px 10px;
+            border-right: 1px solid #1a1a1a;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .step-col:last-child {
+            border-right: none;
+        }
+
+        .roman {
+            font-family: 'Bodoni Moda', serif;
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        /* --- LUNCH SPECIALS --- */
+        .lunch-box {
+            background-color: #cfc4b0; /* Slightly darker shade */
+            padding: 50px 20px;
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 100px;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .timer-box {
+            border: 1px solid #1a1a1a;
+            display: inline-block;
+            padding: 10px 30px;
+            font-family: 'Bodoni Moda', serif; /* Use serif for numbers like video */
+            font-size: 2rem;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+        }
+
+        /* --- MENU LIST --- */
+        .menu-section {
+            max-width: 800px;
+            margin: 0 auto 100px;
+            padding: 0 20px;
+        }
+
+        .cat-header {
+            font-size: 4rem;
+            border-bottom: 1px solid #1a1a1a;
+            margin-bottom: 10px;
+            line-height: 1;
+        }
+
+        .cat-sub {
+            font-style: italic;
+            font-family: 'Bodoni Moda', serif;
+            margin-bottom: 40px;
+            color: #444;
+        }
+
+        .menu-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 5px;
+            position: relative;
+        }
+
+        /* The dotted line effect */
+        .menu-row::after { 
+            content: '';
+            flex-grow: 1;
+            border-bottom: 1px dotted #aaa;
+            margin: 0 10px 5px 10px;
+            opacity: 0.5;
+        }
+
+        .item-title {
+            font-weight: 500;
+            font-size: 1.2rem;
+            white-space: nowrap;
+        }
+
+        .item-price {
+            font-weight: 500;
+            font-size: 1.1rem;
+            white-space: nowrap;
+        }
+        
+        /* Make price stick to right, title to left, dots in middle */
+        .menu-row {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: 10px;
+            align-items: end;
+        }
+        
+        .menu-row::after {
+            content: "";
+            border-bottom: 1px dotted #000;
+            opacity: 0.3;
+            transform: translateY(-5px);
+            width: 100%;
+        }
+
+        .item-desc {
+            font-size: 0.95rem;
+            color: #4a4a4a;
+            margin-bottom: 25px;
+            max-width: 90%;
+            line-height: 1.4;
+        }
+
+        /* --- BUTTON --- */
+        .btn-view {
+            display: block;
+            width: 200px;
+            margin: 0 auto;
+            padding: 15px;
+            border: 1px solid #000;
+            background: transparent;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        
+        .btn-view:hover {
+            background: #000;
+            color: #fff;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background-color: var(--footer-bg);
+            color: var(--footer-text);
+            padding: 80px 20px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 50px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .footer-block h4 {
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            opacity: 0.6;
+        }
+
+        .footer-block p, .footer-block a {
+            display: block;
+            color: #fff;
+            text-decoration: none;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+            font-weight: 300;
+        }
+
+        .big-footer-logo {
+            text-align: center;
+            font-family: 'Bodoni Moda', serif;
+            font-size: 12vw;
+            opacity: 0.1;
+            margin-top: 50px;
+            line-height: 1;
+        }
+
+        @media(max-width: 768px) {
+            .steps-grid { grid-template-columns: 1fr; }
+            .step-col { border-right: none; border-bottom: 1px solid #1a1a1a; }
+            .footer-grid { grid-template-columns: 1fr; text-align: center; }
+        }
+
+
+                /* Menu */
+/* Import Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&family=Montserrat:wght@200;300;400;600&display=swap');
+
+/* Colors & Basics */
+:root {
+    --tan: #c4b399;
+    --charcoal: #1a1a1a;
+}
+
+/* Menu Icon (Hamburger) */
+.menu-icon {
+    position: fixed;
+    top: 30px;
+    right: 30px;
+    z-index: 999;
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: white;
+    mix-blend-mode: difference; /* Ensures visibility on light or dark backgrounds */
+}
+
+/* Overlay Container */
+.nav-overlay {
+    height: 100%;
+    width: 0; /* Hidden by default */
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    background-color: var(--tan);
+    overflow-x: hidden;
+    transition: 0.5s cubic-bezier(0.7, 0, 0.3, 1); /* Smooth Slide Effect */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Links inside the menu */
+.nav-overlay a {
+    padding: 10px;
+    font-size: 2.5rem;
+    text-decoration: none;
+    color: var(--charcoal);
+    display: block;
+    transition: 0.3s;
+    font-family: 'Playfair Display', serif;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    white-space: nowrap; /* Prevents text breaking during animation */
+}
+
+/* Hover effect */
+.nav-overlay a:hover {
+    color: white;
+}
+
+/* Close button specific style */
+.nav-overlay .closebtn {
+    position: absolute;
+    top: 20px;
+    right: 45px;
+    font-size: 60px;
+}
+
+
+
+
+
+    </style>
+</head>
+<body>
+
+
+  <!-- Menu -->
+<div class="menu-icon" onclick="toggleNav()">&#9776;</div>
+
+<div id="myNav" class="nav-overlay">
+    <a href="javascript:void(0)" style="position:absolute; top:20px; right:45px; font-size:60px" onclick="toggleNav()">&times;</a>
+    <a href="index.html">HOME</a> 
+   <!--- <a href="#">CATERING</a> -->
+    <a href="gift_card.html">GIFT CARD</a>
+    <!--<a href="#">STORE</a>-->
+    <a href="about.html">ABOUT</a>
+    <a href="contact.html">CONTACT</a>
+</div>
+
+    <div class="cursor-dot" id="cursor-dot"></div>
+    <div class="cursor-circle" id="cursor-circle"></div>
+
+    <header class="reveal-text">
+        <span class="top-tag">SPICES OF INDIA</span>
+        <h1 class="main-title">MENU</h1>
+        <span class="sub-tag">NEW DISCOVERIES</span>
+    </header>
+
+    <div class="quote-banner reveal-text">
+        <p class="quote-text">Every dish tells a story of spice, care, and heritage_</p>
+    </div>
+
+    <div class="hero-container">
+        <div class="hero-img" id="hero-img"></div>
+    </div>
+
+    <div class="container">
+        <p class="intro-p reveal-text">
+            A symphony of flavors, crafted with care. At Amrit Palace, every dish is a reflection of tradition and creativity from the spices that awaken your senses to the sweetness that lingers at the end.
+        </p>
+
+        <div class="course-wrapper reveal-text hover-target">
+            <h2>Create your own course</h2>
+            <div class="course-price">$39.79</div>
+            <p>Design your perfect dining experience by selecting one appetizer, entrée, and dessert.</p>
+            <p class="upsell">Add an additional entrée and 2 sides for only $16.99!</p>
+            
+            <div class="steps-grid">
+                <div class="step-col">
+                    <span class="roman">I.</span>
+                    <span>Choose any ONE appetizer</span>
+                </div>
+                <div class="step-col">
+                    <span class="roman">II.</span>
+                    <span>Choose any ONE entrée</span>
+                    <span style="font-size:0.8rem; margin-top:5px; opacity:0.7;">(Chicken, Lamb, Veg)</span>
+                </div>
+                <div class="step-col">
+                    <span class="roman">III.</span>
+                    <span>Choose any ONE dessert</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="lunch-box reveal-text hover-target">
+            <div class="timer-box" id="timer">13:49:41</div>
+            <h2>Lunch Specials</h2>
+            <p style="margin-bottom: 20px;">Available Tuesday—Thursday, 11 AM — 3 PM</p>
+            <p>Enjoy a complete and satisfying meal by selecting two of our rich and flavorful curries.</p>
+            
+            <div style="margin-top: 30px; text-align: left; max-width: 400px; margin-left: auto; margin-right: auto;">
+                <div class="menu-row">
+                    <span class="item-title">Amrit Express Thali</span>
+                    <span></span>
+                    <span class="item-price">$14.99</span>
+                </div>
+                <p style="text-align:center; font-style:italic; margin: 10px 0;">Choose Two</p>
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 0.9rem;">
+                    <div>• Palak Paneer</div>
+                    <div>• Chicken Curry</div>
+                    <div>• Lamb Curry</div>
+                    <div>• Channa Masala</div>
+                </div>
+            </div>
+        </div>
+
+        <button class="btn-view hover-target">View Full Menu</button>
+        <div style="height: 60px;"></div>
+
+        <div class="menu-section">
+            <div class="reveal-text">
+                <h2 class="cat-header">Appetizers</h2>
+                <p class="cat-sub">Light starters and shareable bites to begin your meal.</p>
+            </div>
+
+            <div class="reveal-text hover-target">
+                <div class="menu-row">
+                    <span class="item-title">Vegetable Samosa (V)</span>
+                    <span></span>
+                    <span class="item-price">$7.79</span>
+                </div>
+                <p class="item-desc">Crispy turnovers filled with a vibrant mix of spiced potatoes, peas, and a hint of ginger and fenugreek.</p>
+            </div>
+
+            <div class="reveal-text hover-target">
+                <div class="menu-row">
+                    <span class="item-title">Meat Samosa</span>
+                    <span></span>
+                    <span class="item-price">$8.49</span>
+                </div>
+                <p class="item-desc">Minced lamb and green peas encased in a crispy pastry, spiced with an aromatic blend of herbs and spices.</p>
+            </div>
+
+            <div class="reveal-text hover-target">
+                <div class="menu-row">
+                    <span class="item-title">Gobhi Manchurian (V)</span>
+                    <span></span>
+                    <span class="item-price">$15.79</span>
+                </div>
+                <p class="item-desc">Golden fried cauliflower florets tossed in a savory mix of onion, garlic, and chili paste.</p>
+            </div>
+        </div>
+
+        <div class="menu-section">
+            <div class="reveal-text">
+                <h2 class="cat-header">Chicken</h2>
+                <p class="cat-sub">Classic and signature dishes cooked with authentic spices.</p>
+            </div>
+
+            <div class="reveal-text hover-target">
+                <div class="menu-row">
+                    <span class="item-title">Butter Chicken</span>
+                    <span></span>
+                    <span class="item-price">$18.99</span>
+                </div>
+                <p class="item-desc">Chicken cooked in a creamy tomato sauce, a staple dish celebrated for its rich and velvety texture.</p>
+            </div>
+
+            <div class="reveal-text hover-target">
+                <div class="menu-row">
+                    <span class="item-title">Chicken Tikka Masala</span>
+                    <span></span>
+                    <span class="item-price">$20.49</span>
+                </div>
+                <p class="item-desc">Chicken chunks cooked in a rich tomato sauce with light cream, giving it a magical creamy texture.</p>
+            </div>
+
+            <div class="reveal-text hover-target">
+                <div class="menu-row">
+                    <span class="item-title">Chicken Vindaloo</span>
+                    <span></span>
+                    <span class="item-price">$19.99</span>
+                </div>
+                <p class="item-desc">A fiery dish with chicken, chili, tomato, and a hint of coconut, known for its bold spice.</p>
+            </div>
+        </div>
+        
+        <div class="menu-section">
+            <div class="reveal-text">
+                <h2 class="cat-header">Lamb</h2>
+                <p class="cat-sub">Tender lamb specialties rich in flavor and tradition.</p>
+            </div>
+
+             <div class="reveal-text hover-target">
+                <div class="menu-row">
+                    <span class="item-title">Rogan Josh</span>
+                    <span></span>
+                    <span class="item-price">$20.99</span>
+                </div>
+                <p class="item-desc">Lamb cooked in a rich sauce of yogurt, tomatoes, and garlic, seasoned with a special blend of masala.</p>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-block">
+                <h4>AMRIT PALACE</h4>
+                <p>3415 SW College Rd</p>
+                <p>Ocala, FL 34474</p>
+                <br>
+                <p>+1 (352) 873-8500</p>
+                <a href="#">E-mail Us</a>
+            </div>
+            <div class="footer-block">
+                <h4>HOURS</h4>
+                <p>Tue-Fri 11 AM — 10 PM</p>
+                <p>Sat-Sun 12 PM — 10 PM</p>
+                <p>Mon (Closed)</p>
+            </div>
+        </div>
+        <div class="big-footer-logo">AMRIT PALACE</div>
+    </footer>
+
+    <script>
+        /* --- 1. SMOOTH CURSOR ANIMATION --- */
+        const dot = document.getElementById('cursor-dot');
+        const circle = document.getElementById('cursor-circle');
+        
+        let mouseX = 0, mouseY = 0;
+        let dotX = 0, dotY = 0;
+        let circleX = 0, circleY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        // Add hover effect
+        document.querySelectorAll('.hover-target, a, button').forEach(el => {
+            el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
+            el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
+        });
+
+        function animateCursor() {
+            // Lerp (Linear Interpolation) for delay effect
+            // Dot moves fast
+            dotX += (mouseX - dotX) * 0.2;
+            dotY += (mouseY - dotY) * 0.2;
+            
+            // Circle moves slower
+            circleX += (mouseX - circleX) * 0.1;
+            circleY += (mouseY - circleY) * 0.1;
+
+            dot.style.left = `${dotX}px`;
+            dot.style.top = `${dotY}px`;
+            
+            circle.style.left = `${circleX}px`;
+            circle.style.top = `${circleY}px`;
+
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+
+        /* --- 2. SCROLL REVEAL ANIMATION --- */
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal-text').forEach(el => {
+            observer.observe(el);
+        });
+
+        /* --- 3. PARALLAX HERO IMAGE --- */
+        window.addEventListener('scroll', () => {
+            const scrolled = window.scrollY;
+            const heroImg = document.getElementById('hero-img');
+            // Move background slower than scroll
+            heroImg.style.transform = `translateY(${scrolled * 0.5}px)`;
+        });
+
+        /* --- 4. TIMER --- */
+        function updateTimer() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('en-US', { hour12: false });
+            document.getElementById('timer').textContent = timeString;
+        }
+        setInterval(updateTimer, 1000);
+        updateTimer();
+
+               <!--menu-->
+
+    function toggleNav() {
+        const nav = document.getElementById("myNav");
+        // Toggles width between 0 and 100%
+        nav.style.width = nav.style.width === "100%" ? "0" : "100%";
+    }
+    </script>
+
+    
+</body>
+</html>

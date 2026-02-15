@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About — ZZZ Palace</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-color: #E6E1D6;
+            --text-color: #1a1a1a;
+            --footer-bg: #262422;
+            --footer-text: #E6E1D6;
+            --accent-line: #b0aaa0;
+            --font-serif: 'Playfair Display', serif;
+            --font-display: 'Cinzel', serif;
+            --font-sans: 'Lato', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: var(--font-sans);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Standard fade-up animation for text */
+        .animate-block {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .animate-block.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            min-height: 70vh; /* Reduced to leave room for the expanding image */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding-top: 6rem;
+            padding-bottom: 2rem;
+        }
+
+        .hero-title-group {
+            margin-bottom: 2rem;
+        }
+
+        .hero-since {
+            font-family: var(--font-sans);
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .hero-main-text {
+            font-family: var(--font-display);
+            font-size: 4.5rem;
+            line-height: 0.9;
+            color: #2c2c2c;
+        }
+        
+        .hero-sub-text {
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            margin-top: 1rem;
+            display: block;
+        }
+
+        /* --- SCROLL EXPANDING IMAGE --- */
+        .expand-image-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 4rem;
+        }
+
+        .hero-image-wrapper {
+            /* Base dimensions before scrolling */
+            width: 250px; 
+            height: 320px;
+            overflow: hidden;
+            will-change: width, height; /* Optimizes performance during scroll */
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+        
+        .hero-image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .hero-intro-text {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 4rem auto;
+            padding: 0 20px;
+            font-size: 1.1rem;
+            color: #444;
+        }
+
+        h1, h2, h3 {
+            font-family: var(--font-serif);
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        p {
+            font-weight: 300;
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Image reveal animation (for later images) */
+        .image-reveal-container {
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transition: opacity 0.1s ease-out;
+        }
+        .image-reveal-container.visible {
+            opacity: 1;
+        }
+        .image-reveal-container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-color);
+            transform: translateY(0);
+            transition: transform 1.2s cubic-bezier(0.77, 0, 0.175, 1);
+            z-index: 2;
+        }
+        .image-reveal-container.visible::after {
+            transform: translateY(-101%);
+        }
+        .image-reveal-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transform: scale(1.1);
+            transition: transform 1.2s ease-out;
+        }
+        .image-reveal-container.visible .image-reveal-img {
+            transform: scale(1);
+        }
+
+        /* --- Standard Sections --- */
+        .section-block {
+            padding: 4rem 0;
+        }
+        .section-header {
+            margin-bottom: 2rem;
+        }
+        .roman-numeral {
+            font-size: 1.5rem;
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #555;
+        }
+        .section-title {
+            font-size: 2.2rem;
+            line-height: 1.2;
+            margin-bottom: 2rem;
+        }
+        .full-width-image-container {
+            width: 100%;
+            height: 400px;
+            margin: 2rem 0;
+        }
+
+        /* --- Quote Section --- */
+        .quote-block {
+            text-align: center;
+            padding: 3rem 1rem;
+            font-style: italic;
+        }
+        .quote-text {
+            font-family: var(--font-serif);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .quote-author {
+            font-family: var(--font-sans);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-style: normal;
+        }
+        .quote-role {
+            font-size: 0.75rem;
+            color: #666;
+            font-style: normal;
+        }
+
+        /* --- Philosophy List --- */
+        .philosophy-list {
+            list-style: none;
+            margin-top: 2rem;
+        }
+        .philosophy-item {
+            border-top: 1px solid var(--accent-line);
+            padding: 2rem 0;
+        }
+        .philosophy-item:last-child {
+            border-bottom: 1px solid var(--accent-line);
+        }
+        .philosophy-num {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        .philosophy-title {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+        }
+
+        /* --- Parallax Overlay Section --- */
+        .parallax-section {
+            position: relative;
+            height: 500px;
+            color: white;
+            display: flex;
+            align-items: flex-end;
+            margin: 4rem 0;
+            background-image: url('https://images.unsplash.com/photo-1514362545857-3bc16549766b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; 
+            overflow: hidden;
+        }
+        .parallax-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.7), rgba(0,0,0,0.2));
+            z-index: 1;
+        }
+        .parallax-content {
+            position: relative;
+            z-index: 2;
+            padding: 3rem 2rem;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .overlay-title {
+            font-size: 2.5rem;
+            color: white;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        /* --- Testimonials --- */
+        .testimonials-container {
+            display: flex;
+            overflow-x: auto;
+            gap: 20px;
+            padding: 20px 0;
+            scrollbar-width: none;
+            -webkit-overflow-scrolling: touch;
+        }
+        .testimonials-container::-webkit-scrollbar {
+            display: none;
+        }
+        .review-card {
+            min-width: 280px;
+            max-width: 320px;
+            background: #fff;
+            padding: 2rem;
+            border: 1px solid #ddd;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            flex-shrink: 0;
+        }
+        .review-source {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            color: #999;
+            text-align: right;
+            margin-bottom: 1rem;
+        }
+        .review-text {
+            font-family: var(--font-serif);
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+        }
+        .review-author {
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+        .review-cta {
+            text-align: center;
+            margin: 3rem 0;
+            font-size: 0.9rem;
+        }
+        .review-cta a {
+            color: inherit;
+            font-weight: bold;
+        }
+
+        /* --- Footer --- */
+        footer {
+            background-color: var(--footer-bg);
+            color: var(--footer-text);
+            padding: 4rem 20px 2rem 20px;
+            font-family: var(--font-sans);
+        }
+        .footer-logo {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        .footer-logo svg {
+            width: 50px;
+            fill: var(--footer-text);
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            margin-bottom: 4rem;
+            text-align: center;
+        }
+        .footer-col h4 {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+            opacity: 0.7;
+            font-family: var(--font-sans);
+        }
+        .footer-col p, .footer-col a {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: var(--footer-text);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        .footer-bottom-links {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            max-width: 800px;
+            margin: 0 auto 4rem auto;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 2rem;
+            text-align: center;
+        }
+        .footer-brand-name {
+            text-align: center;
+            font-family: var(--font-display);
+            font-size: 3rem;
+            opacity: 0.2;
+            margin-top: 2rem;
+            letter-spacing: 5px;
+        }
+
+        @media (min-width: 768px) {
+            .hero-main-text { font-size: 7rem; }
+            .full-width-image-container { height: 500px; }
+            .footer-grid { grid-template-columns: 1fr 1fr 1fr 1fr; text-align: left; }
+            .footer-bottom-links { grid-template-columns: 1fr 1fr 1fr 1fr; text-align: left;}
+        }
+
+/* Menu */
+/* Import Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&family=Montserrat:wght@200;300;400;600&display=swap');
+
+/* Colors & Basics */
+:root {
+    --tan: #c4b399;
+    --charcoal: #1a1a1a;
+}
+
+/* Menu Icon (Hamburger) */
+.menu-icon {
+    position: fixed;
+    top: 30px;
+    right: 30px;
+    z-index: 999;
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: white;
+    mix-blend-mode: difference; /* Ensures visibility on light or dark backgrounds */
+}
+
+/* Overlay Container */
+.nav-overlay {
+    height: 100%;
+    width: 0; /* Hidden by default */
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    background-color: var(--tan);
+    overflow-x: hidden;
+    transition: 0.5s cubic-bezier(0.7, 0, 0.3, 1); /* Smooth Slide Effect */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Links inside the menu */
+.nav-overlay a {
+    padding: 10px;
+    font-size: 2.5rem;
+    text-decoration: none;
+    color: var(--charcoal);
+    display: block;
+    transition: 0.3s;
+    font-family: 'Playfair Display', serif;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    white-space: nowrap; /* Prevents text breaking during animation */
+}
+
+/* Hover effect */
+.nav-overlay a:hover {
+    color: white;
+}
+
+/* Close button specific style */
+.nav-overlay .closebtn {
+    position: absolute;
+    top: 20px;
+    right: 45px;
+    font-size: 60px;
+}
+
+
+/* Cursor */
+/* Hide the default mouse cursor */
+body {
+    cursor: none; 
+}
+
+/* The small fast dot */
+.cursor-dot {
+    width: 8px;
+    height: 8px;
+    background-color: #1a1a1a; /* Change color here */
+    border-radius: 50%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+}
+
+/* The larger, slow laggy circle */
+.cursor-circle {
+    width: 40px;
+    height: 40px;
+    border: 1px solid rgba(0, 0, 0, 0.5); /* Border color */
+    border-radius: 50%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9998;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    transition: width 0.3s, height 0.3s, background-color 0.3s;
+}
+
+/* State when hovering over links/buttons */
+body.hovering .cursor-circle {
+    width: 80px;
+    height: 80px;
+    background-color: rgba(0, 0, 0, 0.1); /* Slight fill on hover */
+    border-color: transparent;
+}
+    </style>
+</head>
+<body>
+
+<!-- Menu -->
+<div class="menu-icon" onclick="toggleNav()">&#9776;</div>
+
+<div id="myNav" class="nav-overlay">
+    <a href="javascript:void(0)" style="position:absolute; top:20px; right:45px; font-size:60px" onclick="toggleNav()">&times;</a>
+    <a href="index.html">HOME</a>
+    <!--- <a href="#">CATERING</a> -->
+    <a href="gift_card.html">GIFT CARD</a>
+   <!--- <a href="#">STORE</a> -->
+    <a href="about.html">ABOUT</a>
+    <a href="contact.html">CONTACT</a>
+</div>
+
+
+    <!--curser-->
+
+    <div class="cursor-dot"></div>
+<div class="cursor-circle"></div>
+
+    <header class="hero">
+        <div class="hero-title-group animate-block">
+            <span class="hero-since">SINCE 1996</span>
+            <h1 class="hero-main-text">OUR<br>STORY</h1>
+            <span class="hero-sub-text">IN EVERY BITE</span>
+        </div>
+    </header>
+
+    <div class="expand-image-container">
+        <div class="hero-image-wrapper" id="heroExpandingImage">
+            <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80" alt="Restaurant Interior">
+        </div>
+    </div>
+
+    <div class="container animate-block">
+        <p class="hero-intro-text">
+            From our family to yours — over 25 years of celebrating Indian cuisine with passion, authenticity, and heart.
+        </p>
+    </div>
+
+    <div class="container">
+        <div class="full-width-image-container image-reveal-container">
+            <img src="https://images.unsplash.com/photo-1552566626-52f8b828add9?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80" class="image-reveal-img" alt="Amrit Palace Interior">
+        </div>
+    </div>
+
+    <section class="container section-block animate-block">
+        <div class="section-header">
+            <span class="roman-numeral">I.</span>
+            <h2 class="section-title">OUR JOURNEY</h2>
+        </div>
+        <div>
+            <p>Founded in 1996 in the heart of Ocala, Florida, Amrit Palace began as a humble dream — to bring the vibrant flavors, warmth, and traditions of Indian culture to American tables. What started as a family-run restaurant quickly became a local landmark, cherished by generations of guests who return time and again for our signature dishes and welcoming atmosphere.</p>
+            <p>Over the decades, we've grown into a destination for both locals and travelers, offering an experience that is as much about connection as it is about cuisine. Our space blends the charm of Indian heritage with modern comfort, creating an environment where stories are shared, celebrations are held, and memories are made.</p>
+            <p>Today, our menu is a testament to the heritage we honor and the creativity we embrace. Every recipe carries the essence of tradition, refined through years of passion and expertise. Whether it's a classic favorite passed down for generations or a new creation inspired by seasonal ingredients, we ensure every plate leaves our kitchen with one goal — that each guest departs not only satisfied, but truly inspired to return.</p>
+        </div>
+    </section>
+    
+    <div class="container">
+        <div class="full-width-image-container image-reveal-container" style="height: 600px;">
+            <img src="https://images.unsplash.com/photo-1550966871-3ed3c47e2ce2?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" class="image-reveal-img" alt="Mirror Reflection">
+        </div>
+    </div>
+
+    <section class="container section-block animate-block">
+        <div class="section-header">
+            <span class="roman-numeral">II</span>
+            <h2 class="section-title">WHERE TRADITION MEETS MODERN COMFORT</h2>
+        </div>
+        <p>Step inside Amrit Palace, and you'll find a space designed to honor India's diverse regions — from intricate patterns and vibrant colors to modern touches that make you feel right at home. Whether you're here for an intimate dinner, a celebration, or a business gathering, every detail is crafted for comfort and beauty.</p>
+    </section>
+
+    <div class="container">
+        <div class="full-width-image-container image-reveal-container">
+             <img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" class="image-reveal-img" alt="Dining Booths">
+        </div>
+    </div>
+
+    <div class="container animate-block">
+        <div class="quote-block">
+            <p class="quote-text">"Hospitality is not just what we serve, it's how we make you feel."</p>
+            <div class="quote-author">Satnam Singh</div>
+            <div class="quote-role">Founder of ZZZ Palace</div>
+        </div>
+    </div>
+
+    <section class="container section-block animate-block">
+        <div class="section-header">
+            <span class="roman-numeral">III</span>
+            <h2 class="section-title">OUR CULINARY PHILOSOPHY</h2>
+        </div>
+        
+        <ul class="philosophy-list">
+            <li class="philosophy-item">
+                <span class="philosophy-num">1.</span>
+                <h3 class="philosophy-title">Heritage First</h3>
+                <p>Family recipes and regional classics cooked with respect, not trends. We honor origin while keeping flavors clear and honest.</p>
+            </li>
+            <li class="philosophy-item">
+                <span class="philosophy-num">2.</span>
+                <h3 class="philosophy-title">Spice, Not Just Heat</h3>
+                <p>Whole spices are toasted and ground in-house, layered for aroma, depth, and balance. Heat is optional; harmony is essential.</p>
+            </li>
+            <li class="philosophy-item">
+                <span class="philosophy-num">3.</span>
+                <h3 class="philosophy-title">Fire & Time</h3>
+                <p>Tandoor flame, slow braises, and breads made to order. Patience unlocks texture, sweetness, and that quiet, lingering finish.</p>
+            </li>
+            <li class="philosophy-item">
+                <span class="philosophy-num">4.</span>
+                <h3 class="philosophy-title">Sourced with Care</h3>
+                <p>Seasonal produce, responsible meats, local dairy where possible. Small-batch masalas, minimal waste, maximum integrity.</p>
+            </li>
+        </ul>
+    </section>
+
+    <section class="parallax-section">
+        <div class="parallax-overlay"></div>
+        <div class="parallax-content animate-block">
+            <span class="roman-numeral" style="color: white; border-color: white;">IV</span>
+            <h2 class="overlay-title">THE PEOPLE<br>BEHIND<br>THE PALACE</h2>
+            <p style="color: rgba(255,255,255,0.9);">Our team is a family — united by a love for great food and great service. From chefs and servers to event planners, each member plays a role in making every visit unforgettable.</p>
+        </div>
+    </section>
+
+    <section class="container section-block animate-block">
+        <h2 class="section-title" style="text-align: center;">WHAT OUR GUESTS SAY</h2>
+        
+        <div class="testimonials-container">
+            <div class="review-card">
+                <div class="review-source">Google</div>
+                <p class="review-text">"Always so delicious. The staff is incredible and attentive. My favorite restaurant in Ocala."</p>
+                <div class="review-author">Anonymous</div>
+            </div>
+            <div class="review-card">
+                <div class="review-source">Yelp</div>
+                <p class="review-text">"The restaurant is very clean, food is amazing and servers very attentive. You will not regret eating here."</p>
+                <div class="review-author">Elizabeth M.</div>
+            </div>
+            <div class="review-card">
+                <div class="review-source">TripAdvisor</div>
+                <p class="review-text">"An absolute gem. The butter chicken is to die for and the ambiance is perfect for a date night."</p>
+                <div class="review-author">David R.</div>
+            </div>
+        </div>
+
+        <div class="review-cta">
+            Have you already visited our restaurant and left with great memories?<br>
+            <a href="#">Be sure to leave us a review!</a>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-logo animate-block">
+            <svg viewBox="0 0 24 24">
+                <path d="M12 2L2 7l10 5 10-5-10-5zm0 9l2.5-1.25L12 8.5l-2.5 1.25L12 11zm0 2.5l-5-2.5-5 2.5L12 22l10-8.5-5-2.5-5 2.5z"/>
+            </svg>
+        </div>
+
+        <div class="footer-grid animate-block">
+            <div class="footer-col">
+                <h4>ZZZ PALACE</h4>
+                <p>3415 SW College Rd</p>
+                <p>Ocala, FL 34474</p>
+            </div>
+            <div class="footer-col">
+                <h4>HOURS</h4>
+                <p>Tue-Fri 11 AM — 10 PM</p>
+                <p>Sat-Sun 12 PM — 10 PM</p>
+                <p>Mon (Closed)</p>
+            </div>
+            <div class="footer-col">
+                <h4>CONTACT</h4>
+                <p>+1 (352) 873-8500</p>
+                <p><a href="mailto:info@amritpalace.com">E-mail Us</a></p>
+            </div>
+            <div class="footer-col">
+                <h4>NEWSLETTER</h4>
+                <p>Get the latest updates.</p>
+                <p style="opacity: 0.5;">Coming soon...</p>
+            </div>
+        </div>
+
+        <div class="footer-bottom-links animate-block">
+            <div class="footer-col">
+                <h4>Discover</h4>
+                <a href="#">Home</a>
+                <a href="#">Catering</a>
+                <a href="#">Gift Cards</a>
+                <a href="#">About</a>
+                <a href="#">Contact</a>
+            </div>
+            <div class="footer-col">
+                <h4>Legals</h4>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms and Conditions</a>
+                <a href="#">Cookie Policy</a>
+            </div>
+            <div class="footer-col">
+                <h4>Actions</h4>
+                <a href="#">View Menu</a>
+                <a href="#">Order Gift Card</a>
+                <a href="#">Reserve a Table</a>
+            </div>
+            <div class="footer-col">
+                <h4>Socials</h4>
+                <a href="#">Instagram</a>
+                <a href="#">Facebook</a>
+            </div>
+        </div>
+
+        <div class="footer-brand-name animate-block">ZZZ PALACE</div>
+    </footer>
+
+    <script>
+        // --- 1. HERO IMAGE SCROLL EXPANSION LOGIC ---
+        const heroExpandingImage = document.getElementById('heroExpandingImage');
+        
+        // Settings for the expansion
+        const maxScrollDistance = 400; // How many pixels to scroll before it reaches max width
+        const startWidth = 250; // Starting width in px
+        const startHeight = 320; // Starting height in px
+        const endHeight = window.innerHeight * 0.7; // Target height (70vh)
+        
+        window.addEventListener('scroll', () => {
+            const scrollY = window.scrollY;
+            
+            // Calculate progress between 0 and 1
+            let progress = Math.min(scrollY / maxScrollDistance, 1);
+            
+            // Smooth out the progress curve (Ease-out effect)
+            const easeOutProgress = 1 - Math.pow(1 - progress, 3);
+            
+            // Calculate new dimensions
+            // For width, we transition from 250px to 100vw
+            const currentWidth = startWidth + ((window.innerWidth - startWidth) * easeOutProgress);
+            const currentHeight = startHeight + ((endHeight - startHeight) * easeOutProgress);
+            
+            // Apply new dimensions
+            heroExpandingImage.style.width = `${currentWidth}px`;
+            heroExpandingImage.style.height = `${currentHeight}px`;
+            
+            // Ensure it doesn't cause horizontal scrolling
+            heroExpandingImage.style.maxWidth = '100vw'; 
+        });
+
+        // --- 2. INTERSECTION OBSERVER FOR FADE-INS ---
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.15 
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        const animatedElements = document.querySelectorAll('.animate-block, .image-reveal-container');
+        animatedElements.forEach(element => {
+            observer.observe(element);
+        });
+    </script>
+
+    <!--menu-->
+<script>
+    function toggleNav() {
+        const nav = document.getElementById("myNav");
+        // Toggles width between 0 and 100%
+        nav.style.width = nav.style.width === "100%" ? "0" : "100%";
+    }
+</script>
+
+<!--cursor-->
+
+<script>
+    const dot = document.querySelector('.cursor-dot');
+    const circle = document.querySelector('.cursor-circle');
+
+    // Variables to track mouse position and element position
+    let mouseX = 0;
+    let mouseY = 0;
+    let dotX = 0;
+    let dotY = 0;
+    let circleX = 0;
+    let circleY = 0;
+
+    // 1. Track the actual mouse movement
+    document.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+    });
+
+    // 2. Add hover effect to links and buttons
+    // You can add the class 'hover-target' to any specific element you want to trigger the effect
+    const hoverables = document.querySelectorAll('a, button, .hover-target');
+    
+    hoverables.forEach(el => {
+        el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
+        el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
+    });
+
+    // 3. Animation Loop (The "Lag" Logic)
+    function animateCursor() {
+        // Linear Interpolation (Lerp)
+        // Formula: current = current + (target - current) * speed
+        
+        // Dot moves fast (speed 0.2)
+        dotX += (mouseX - dotX) * 0.2;
+        dotY += (mouseY - dotY) * 0.2;
+        
+        // Circle moves slow (speed 0.1) creates the lag
+        circleX += (mouseX - circleX) * 0.1;
+        circleY += (mouseY - circleY) * 0.1;
+
+        // Apply styles
+        dot.style.left = `${dotX}px`;
+        dot.style.top = `${dotY}px`;
+        
+        circle.style.left = `${circleX}px`;
+        circle.style.top = `${circleY}px`;
+
+        requestAnimationFrame(animateCursor);
+    }
+
+    // Start the loop
+    animateCursor();
+</script>
+</body>
+</html>
